@@ -13,7 +13,7 @@ import { tokenAtom } from "@/atom";
 
 const Home = ({ isLoggedin }) => {
   const [courses, setcourses] = useState([]);
-
+   
   const token=useRecoilValue(tokenAtom);
   
   useEffect(() => {
@@ -34,15 +34,7 @@ const Home = ({ isLoggedin }) => {
   
 
 
-  const settings = {
-    className: "center",
-    centerMode: true,
-    infinite: false,
-    centerPadding: "50px",
-    slidesToShow: 1,
-    speed: 500,
-   
-  };
+ 
  const navigate = useNavigate();
   const handlePurchase = async (courseId) => {
     token?navigate("/buy"):navigate("/Login")
@@ -70,7 +62,7 @@ const Home = ({ isLoggedin }) => {
             "url('https://wallpaperaccess.com/full/3356601.png')",
         }}
       >
-        {/* <div className="absolute inset-0 bg-black opacity-40 z-0"></div> */}
+     
         <div className="relative z-10 flex flex-col justify-center">
           <div className="mt-4">
             <Navbar isLoggedin={isLoggedin} />
@@ -79,40 +71,33 @@ const Home = ({ isLoggedin }) => {
         </div>
       </div>
       <div className="slider-container">
-      <Slider {...settings}>
+      <div className="p-6 bg-gradient-to-r from-blue-500 via-indigo-50 min-h-screen">
+      <h1 className="text-3xl font-bold mb-6 text-center">All Products</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {courses.map((course) => (
-          <>
-            <main key={course._id} className="  flex justify-center items-center ">
-              <CardContainer className="">
-                <CardBody className="bg-gradient-to-tl from-blue-700 via-neutral-50 rounded-xl shadow-xl p-6 text-center">
-                  <CardItem
-                    translateZ={50}
-                    className="text-2xl font-bold text-gray-800 mb-2"
-                  >
-                    {course.title}
-                  </CardItem>
-                  <CardItem translateZ={30} className="text-gray-600 mb-4 ">
-                    <img src={course.imageurl} alt="" className="h-40 w-40 " />
-                    <br />
-                    {course.description}
-                    
-                  </CardItem>
-                  <CardItem translateZ={30} className="text-gray-600 mb-4">
-                    {course.price}
-                  </CardItem>
-                  <CardItem
-                    translateZ={20}
-                    className="text-sm text-blue-500 underline cursor-pointer"
-                    onClick={() => handlePurchase(course._id)}
-                  >
-                  Buy
-                  </CardItem>
-                </CardBody>
-              </CardContainer>
-            </main>
-          </>
+          <div
+            key={course._id}
+            className="bg-gradient-to-tl from-blue-500 via-indigo-50 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300"
+          >
+            <img
+              src={course.imageurl}
+              alt={course.title}
+              className="w-full  object-cover"
+            />
+            <div className="p-4">
+              <h2 className="text-xl font-semibold mb-2">{course.title}</h2>
+              <p className="text-gray-600 mb-4">{course.description.slice(0, 80)}...</p>
+              <div className="flex justify-between items-center">
+                <span className="text-green-800 font-bold">₹{course.price}</span>
+                <button onClick={handlePurchase} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 text-sm">
+                 Buy
+                </button>
+              </div>
+            </div>
+          </div>
         ))}
-      </Slider>
+      </div>
+      </div>
 </div>
       <Footer />
     </>

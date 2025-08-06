@@ -73,7 +73,7 @@ adminRoutes.post("/signin",async function(req,res){
  }
  const passwordMatch=await bcrypt.compare(password, adminfind.password);
  if(passwordMatch){
-  const token=jwt.sign({id:adminfind._id},JWT_ADMIN_SECRET);
+  const token=jwt.sign({id:adminfind._id},JWT_ADMIN_SECRET,{ expiresIn: '1h' } );
   
 
   return res.status(200).json({
@@ -114,10 +114,7 @@ adminRoutes.post("/coursecreator",adminMiddleware,async function(req,res){
 adminRoutes.get("/my-created-courses",adminMiddleware,async function(req,res){
       const adminId=req.adminId;
       const courses=await courseModel.find({creatorId:adminId});
-      res.json({
-        message:"my created courses",
-        courses
-      })
+      res.json(courses);
 })
 
 adminRoutes.put("/courseupdate",adminMiddleware, async function(req,res){
