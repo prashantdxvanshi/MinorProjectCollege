@@ -1,0 +1,1 @@
+Zod is used for input validation in which first we have to design schema in zod object and then forward

@@ -1,0 +1,25 @@
+ const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    price: "",
+    imageurl: null,
+  });
+  const navigate = useNavigate();
+  const handleChange = (e) => {
+    console.log(e.target.files);
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "http://localhost:4000/admin/image",
+        formData
+      );
+    } catch (error) {
+      console.error("course created error:", error);
+
+      alert("course created failed!");
+    }
+  };
