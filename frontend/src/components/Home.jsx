@@ -13,12 +13,18 @@ import { tokenAtom } from "@/atom";
 
 const Home = ({ isLoggedin }) => {
   const [courses, setcourses] = useState([]);
+
   const token=useRecoilValue(tokenAtom);
+  
   useEffect(() => {
     const fetchcourse = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/course/review", {});
-        setcourses(res.data);
+        const tokenofstorage = localStorage.getItem("token"); 
+        if(token===0){const res = await axios.get("http://localhost:4000/course/review", {});
+      setcourses(res.data);}
+        else{const res = await axios.get("http://localhost:4000/admin/others", {headers:{"Content-Type": "application/json",token: tokenofstorage}});
+      setcourses(res.data);}
+        
       } catch (err) {
         console.log("error is ", err);
       }
@@ -33,7 +39,7 @@ const Home = ({ isLoggedin }) => {
     centerMode: true,
     infinite: false,
     centerPadding: "50px",
-    slidesToShow: 3,
+    slidesToShow: 1,
     speed: 500,
    
   };
@@ -48,7 +54,7 @@ const Home = ({ isLoggedin }) => {
       );
       console.log(response.data.adminId); 
       console.log(response.data.courseId); 
-
+      
       
   } catch (err) {
     console.error("Purchase failed:", err)
@@ -76,7 +82,7 @@ const Home = ({ isLoggedin }) => {
       <Slider {...settings}>
         {courses.map((course) => (
           <>
-            <main key={course._id} className="flex justify-center items-center ">
+            <main key={course._id} className="  flex justify-center items-center ">
               <CardContainer className="">
                 <CardBody className="bg-gradient-to-tl from-blue-700 via-neutral-50 rounded-xl shadow-xl p-6 text-center">
                   <CardItem
