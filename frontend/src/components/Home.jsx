@@ -39,7 +39,7 @@ const Home = ({ isLoggedin }) => {
   };
  const navigate = useNavigate();
   const handlePurchase = async (courseId) => {
-    token?navigate("/buy"):navigate("/Login");
+    token?navigate("/buy"):navigate("/Login")
   try {
     const token = localStorage.getItem("token"); 
     const response = await axios.post("http://localhost:4000/admin/want_to_purchase",
@@ -51,7 +51,7 @@ const Home = ({ isLoggedin }) => {
 
       
   } catch (err) {
-    console.error("Purchase failed:", err);
+    console.error("Purchase failed:", err)
   }
     
 };
