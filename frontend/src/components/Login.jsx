@@ -39,6 +39,8 @@ const Login = ({ setLoggedin }) => {
         alert("Login successful");
         setLoggedin(true);
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", res.data.admin);
+
         adminName(res.data.admin);
         token(1);
         navigate("/");

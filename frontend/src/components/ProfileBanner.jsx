@@ -8,7 +8,7 @@ const ProfileBanner = () => {
           className="relative h-55 flex justify-between bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage:
-              "url('https://i1.sndcdn.com/visuals-000343571320-DeAiOo-t1240x260.jpg')",
+              "url('https://wallpapers.com/images/hd/professional-background-0rvi0y9hjbs1yq1q.jpg')",
           }}
         >
           <div className="absolute inset-0 bg-black opacity-40"></div>
@@ -20,7 +20,7 @@ const ProfileBanner = () => {
                 alt=""
                 className="w-42 h-42 rounded-full mt-7"
               />
-              <div className="mt-25 ml-6 text-white">Name</div>
+              <div className="mt-25 ml-6 font-bold text-2xl text-white">{localStorage.getItem("user")}</div>
             </div>
 
             <div className="mr-3 my-12 flex flex-col justify-between text-white">

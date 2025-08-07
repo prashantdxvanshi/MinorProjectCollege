@@ -4,7 +4,6 @@ import axios from "axios";
 import Home from "./components/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
-import Signup from "./components/Signup";
 import Profile from "./components/Profile";
 import SignupFormDemo from "./components/signup-form-demo";
 import AddShop from "./components/AddShop";

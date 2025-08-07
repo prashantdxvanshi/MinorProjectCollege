@@ -1,17 +1,19 @@
 const express = require('express')
 const mongoose=require('mongoose');
-const dotenv=require("dotenv");
+
+
 
 const { courseRoutes } = require('./routes/course');
 const { adminRoutes } = require('./routes/admin');
 const app = express();
-dotenv.config(); 
+require("dotenv").config();
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 const port = 4000
 const cors = require("cors");
 const multer = require('multer');
 app.use(cors());
+
 
 
 

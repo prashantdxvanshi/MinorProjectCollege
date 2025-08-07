@@ -10,9 +10,11 @@ import {
 import { adminAtom, tokenAtom } from '@/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 const Profileholder = () => {
-  const adminName=useRecoilValue(adminAtom);
-  const token=useSetRecoilState(tokenAtom);
-  console.log(adminName);
+  // const adminName=useRecoilValue(adminAtom);
+  const adminName=localStorage.getItem("user")
+  // const token=useSetRecoilState(tokenAtom);
+  const token=localStorage.getItem("token")
+  // console.log(adminName);
   return (
    <>
   <div>
@@ -21,7 +23,7 @@ const Profileholder = () => {
   <DropdownMenuContent>
     <DropdownMenuLabel>My Account</DropdownMenuLabel>
     <DropdownMenuSeparator />
-    <DropdownMenuItem><a href="/Profile">Profile</a> </DropdownMenuItem>
+    <DropdownMenuItem><a href="/my_created_courses">Profile</a> </DropdownMenuItem>
     <DropdownMenuItem>Reviews</DropdownMenuItem>
     <DropdownMenuItem>Settings</DropdownMenuItem>
     <DropdownMenuItem onClick={()=>{localStorage.removeItem("token"); token(0)}}>Log out</DropdownMenuItem>

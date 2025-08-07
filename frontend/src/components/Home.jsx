@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Banner from "./Banner";
 import Footer from "./Footer";
-import { CardContainer, CardBody, CardItem, useMouseEnter } from "./ui/3d-card";
+
 import axios from "axios";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
+
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { tokenAtom } from "@/atom";
@@ -55,6 +53,7 @@ const Home = ({ isLoggedin }) => {
 };
   return (
     <>
+      
       <div
         className="relative w-full bg-cover bg-center bg-no-repeat"
         style={{
@@ -82,7 +81,7 @@ const Home = ({ isLoggedin }) => {
             <img
               src={course.imageurl}
               alt={course.title}
-              className="w-full  object-cover"
+              className="w-[600px] h-[300px] object-cover rounded-lg"
             />
             <div className="p-4">
               <h2 className="text-xl font-semibold mb-2">{course.title}</h2>

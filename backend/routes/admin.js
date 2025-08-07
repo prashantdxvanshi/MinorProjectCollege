@@ -1,8 +1,7 @@
 const {Router}=require('express');
-const cloudinary=require("../cloudinary/Cloudinary")
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const { LocalStorage } = require('node-localstorage');
-const localStorage = new LocalStorage('./scratch'); 
+const multer = require("multer");
+const { uploadOnCloudinary } = require("../cloudinary/Cloudinary");
+const { upload } = require("../Middleware/multer")
 
 
 const path=require("path");
@@ -12,7 +11,7 @@ const {z}=require("zod");
 const {adminModel, courseModel, orderModel}=require("../db");
 const { adminMiddleware } = require('../Middleware/adminMiddleware');
 const { JWT_ADMIN_SECRET } = require('../config');
-const multer = require('multer');
+
 const adminRoutes=Router();
 adminRoutes.post("/signup",async function(req,res){
     const zodBodySchema=z.object({
@@ -90,26 +89,46 @@ adminRoutes.post("/signin",async function(req,res){
 
 
 
-adminRoutes.post("/coursecreator",adminMiddleware,async function(req,res){
-     const adminId=req.adminId;
-    //  console.log(adminId);
-      const {title,description,price,imageurl}=req.body;
+
+
+
+
+adminRoutes.post("/coursecreator", adminMiddleware, upload.single("file"), async (req, res) => {
+
+     try {
+      const adminId = req.adminId;
+      const { title, description, price } = req.body;
       const admin = await adminModel.findById(adminId);
 
-      const course=await courseModel.create({
-        title:title,
-        description:description,
-        price:price,
-        imageurl:"https://tse4.mm.bing.net/th/id/OIP.eXWcaYbEtO2uuexHM8sAwwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
-        creatorId:adminId
-      })
+      const localPath = req.file?.path;
+      if (!localPath) return res.status(400).json({ error: "File not found" });
+
+      const cloudinaryResult = await uploadOnCloudinary(localPath);
+
+      const course = await courseModel.create({
+        title,
+        description,
+        price,
+        imageurl:cloudinaryResult.secure_url,
+        creatorId: adminId,
+      });
+
       res.json({
-        message:"course created",
-        courseId:course._id,
-        adminName:admin,
-      })
-    
-})
+        message: "Course created",
+        courseId: course._id,
+        adminName: admin.name,
+        image:course.imageurl,
+      });
+    } catch (err) {
+      console.error("Course creation error:", err);
+      res.status(500).json({
+        error: "Something went wrong",
+        detail: err.message,
+      });
+    }
+});
+
+
 
 adminRoutes.get("/my-created-courses",adminMiddleware,async function(req,res){
       const adminId=req.adminId;
@@ -176,7 +195,6 @@ res.json({
     courses
 })
 })
-
 
 
 
