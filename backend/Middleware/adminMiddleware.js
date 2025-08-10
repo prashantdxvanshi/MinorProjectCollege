@@ -15,6 +15,4 @@ console.log(verify);
     res.json({message:"you are not signed in "});
  }
 }
-module.exports={
-    adminMiddleware:adminMiddleware,
-}
+module.exports= adminMiddleware;

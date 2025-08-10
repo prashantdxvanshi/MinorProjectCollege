@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const { courseModel } = require("../db");
+const adminMiddleware = require("../Middleware/adminMiddleware");
 const courseRoutes = Router();
 courseRoutes.get("/purchases", (req, res) => {
   res.send("Hello World!");
@@ -12,9 +13,18 @@ courseRoutes.get("/review", async (req, res) => {
     res.json("error", err);
   }
 });
-module.exports = {
-  courseRoutes: courseRoutes,
-};
+courseRoutes.get("/detail/:id", async (req, res) => {
+  // console.log("hi")
+  //  console.log(req.params.id);
+   const courseId=req.params.id;
+   const details=await courseModel.findById(courseId);
+  //  console.log(details);
+  res.json(details);
+});
+
+
+module.exports ={courseRoutes};
+
 
 // function courseRoutes(app){
 //     app.get('/course/purchases', (req, res) => {

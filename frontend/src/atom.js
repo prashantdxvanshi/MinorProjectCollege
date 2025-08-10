@@ -9,3 +9,7 @@ export const tokenAtom=atom({
     key:"tokenAtom",
     default:0
 })
+export const searchAtom=atom({
+    key:"searchAtom",
+    default:''
+})

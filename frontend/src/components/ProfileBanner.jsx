@@ -8,7 +8,7 @@ const ProfileBanner = () => {
           className="relative h-55 flex justify-between bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage:
-              "url('https://wallpapers.com/images/hd/professional-background-0rvi0y9hjbs1yq1q.jpg')",
+              "url('https://wallpapers.com/images/hd/profile-picture-background-u8upwya2nc2qlte7.jpg')",
           }}
         >
           <div className="absolute inset-0 bg-black opacity-40"></div>

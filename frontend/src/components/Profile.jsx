@@ -9,11 +9,20 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { adminAtom, tokenAtom } from "@/atom";
+import { adminAtom, searchAtom, tokenAtom } from "@/atom";
 const Profile = () => {
   const [courses,setcourses]=useState([]);
-  const adminName=useRecoilValue(adminAtom);
-  console.log(adminName);
+  const [search,setsearch]=useState("");
+
+  const [searchData,setsearchData]=useState({search:""});
+   const handlechange=(e)=>{
+    setsearchData({[e.target.name]:e.target.value});
+ }
+ const handlesearch=()=>{
+  setsearch(searchData.search);
+ }
+
+  
   useEffect(() => {
     async function showOwnCourses(){
       try{
@@ -29,15 +38,7 @@ const Profile = () => {
    }
    showOwnCourses();
   }, [])
-  const settings = {
-    className: "center",
-    centerMode: true,
-    infinite: false,
-    centerPadding: "50px",
-    slidesToShow: 3,
-    speed: 500,
-   
-  };
+  
 
   return (
     <>
@@ -52,9 +53,9 @@ const Profile = () => {
           <div className="flex w-full mr-25 border-1 rounded shadow p-4">
             <div className="ml-3 w-90 ">LocationBar</div>
           <div className="border-l h-5 " />
-          <span className="">🔍</span>
+          <button onClick={handlesearch} className="cursor-pointer">🔍</button>
           <div className="w-full ">
-            <input type="text" className="w-full outline-none" />
+            <input type="text" name="search" value={searchData.search} onChange={handlechange} className="w-full outline-none" />
           </div>
           </div>
           <div className="mt-1">
@@ -64,8 +65,12 @@ const Profile = () => {
       </nav>
     </header>
       <div className="mx-50 border-2 w-277 "><ProfileBanner/></div>
-  <Slider {...settings}>
-        {courses.map((course) => (
+  
+        {courses.filter((course)=>{
+          if(course.title.toLowerCase().includes(search.toLowerCase())){
+            return true;
+          }
+        }).map((course) => (
           <>
             <main key={course._id} className="flex justify-center items-center ">
               <CardContainer className="">
@@ -93,7 +98,7 @@ const Profile = () => {
             </main>
           </>
         ))}
-      </Slider>
+      
     </>
   );
 };

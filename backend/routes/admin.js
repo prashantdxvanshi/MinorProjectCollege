@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 const jwt=require("jsonwebtoken");
 const {z}=require("zod");
 const {adminModel, courseModel, orderModel}=require("../db");
-const { adminMiddleware } = require('../Middleware/adminMiddleware');
+const  adminMiddleware  = require('../Middleware/adminMiddleware');
 const { JWT_ADMIN_SECRET } = require('../config');
 
 const adminRoutes=Router();
