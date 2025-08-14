@@ -104,7 +104,7 @@ adminRoutes.post("/coursecreator", adminMiddleware, upload.single("file"), async
       if (!localPath) return res.status(400).json({ error: "File not found" });
 
       const cloudinaryResult = await uploadOnCloudinary(localPath);
-
+       console.log("1")
       const course = await courseModel.create({
         title,
         description,
@@ -133,7 +133,9 @@ adminRoutes.post("/coursecreator", adminMiddleware, upload.single("file"), async
 adminRoutes.get("/my-created-courses",adminMiddleware,async function(req,res){
       const adminId=req.adminId;
       const courses=await courseModel.find({creatorId:adminId});
-      res.json(courses);
+      const creator=await adminModel.findById(adminId);
+      // console.log(creator.name);
+      res.json({courses:courses , creatorName:creator.name});
 })
 
 adminRoutes.put("/courseupdate",adminMiddleware, async function(req,res){
@@ -152,24 +154,32 @@ adminRoutes.put("/courseupdate",adminMiddleware, async function(req,res){
     
 })
 
-adminRoutes.post("/want_to_purchase",adminMiddleware, async (req, res) => {
+adminRoutes.post("/orders",adminMiddleware, async (req, res) => {
     const buyerId=req.adminId;
     const courseId=req.body.courseId;
     const admin = await adminModel.findById(buyerId);
     const course = await courseModel.findById(courseId);
     const sellerId=course.creatorId;
-    // console.log(admin);
-    // console.log(course);
+    // console.log(buyerId);
+    // console.log(courseId);
+    const already=await orderModel.findOne({buyerId,courseId});
+    if(already){
+      return res.json({message:"already purchased"})
+    }
+    
     if(sellerId.toString()===buyerId.toString()){ return res.json({message:"your are creator so you can't buy own"})};
-
-   await orderModel.create({
+    const paymentsuccess=true;
+    if(paymentsuccess){
+    await orderModel.create({
     buyerId,
     sellerId,
     courseId
    })
 
+    }
+   
   res.json({
-    message:"can purchase",
+    message:"purchased you can see orders table",
     buyerId,
     sellerId,
     courseId
@@ -187,9 +197,10 @@ adminRoutes.get("/others",adminMiddleware, async (req, res) => {
   }
 });
 
-adminRoutes.get("/my_purchased_courses", async function(req,res){
-    const adminId=req.userId;
-const courses=await courseModel.find({creatorId:adminId});
+adminRoutes.get("/my_purchased_courses",adminMiddleware, async function(req,res){
+    const adminId=req.adminId;
+const courses=await orderModel.find({buyerId:adminId});
+console.log(courses)
 res.json({
     message:"all courses shown",
     courses

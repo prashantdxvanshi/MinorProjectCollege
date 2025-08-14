@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { courseModel } = require("../db");
+const { courseModel, adminModel } = require("../db");
 const adminMiddleware = require("../Middleware/adminMiddleware");
 const courseRoutes = Router();
 courseRoutes.get("/purchases", (req, res) => {
@@ -18,8 +18,11 @@ courseRoutes.get("/detail/:id", async (req, res) => {
   //  console.log(req.params.id);
    const courseId=req.params.id;
    const details=await courseModel.findById(courseId);
-  //  console.log(details);
-  res.json(details);
+  //  console.log("creator id is ",details.creatorId);
+  const creator=await adminModel.findById(details.creatorId);
+  // console.log(creator.name);
+  const creatorName=creator.name;
+  res.json({details:details,creatorName:creatorName});
 });
 
 

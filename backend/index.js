@@ -32,3 +32,51 @@ app.listen(port, () => {
 })
 }
 main();
+
+
+
+
+const { WebSocketServer, WebSocket }=require ("ws");
+const wss = new WebSocketServer({ port: 8080 });
+
+let allsockets = [
+  {
+    socket: WebSocket,
+    room: String,
+  },
+];
+wss.on("connection", function (socket) {
+
+  console.log("connected user ");
+  socket.on("message", (msg) => {
+    const parsedmsg = JSON.parse(msg);
+    console.log("parsedmsg", parsedmsg);
+
+    if (parsedmsg.type === "join") {
+      // console.log("joined the room");
+      allsockets.push({
+        socket,
+        room: parsedmsg.payload.room,
+      });
+    }
+    if (parsedmsg.type === "chat") {
+      console.log("want to chat ");
+      let currentUserRoom = null;
+
+      for (let i = 0; i < allsockets.length; i++) {
+        if (allsockets[i].socket == socket) {
+            //   console.log("inside socket checking")
+            currentUserRoom = allsockets[i].room;
+              console.log(allsockets[i].room)
+        }
+      
+      }
+      for (let i = 0; i < allsockets.length; i++) {
+        console.log(currentUserRoom);
+        if (allsockets[i].room == currentUserRoom) {
+          allsockets[i].socket.send(JSON.stringify(parsedmsg));
+        }
+      }
+    }
+  });
+});

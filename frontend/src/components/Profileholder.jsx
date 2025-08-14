@@ -12,9 +12,9 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 const Profileholder = () => {
   // const adminName=useRecoilValue(adminAtom);
-  const adminName=localStorage.getItem("user")
+  const adminName=sessionStorage.getItem("user")
   const tokenatom=useSetRecoilState(tokenAtom);
-  const token=localStorage.getItem("token")
+  const token=sessionStorage.getItem("token")
   const navigate=useNavigate();
   // console.log(adminName);
   return (
@@ -28,7 +28,7 @@ const Profileholder = () => {
     <DropdownMenuItem><a href="/my_created_courses">Profile</a> </DropdownMenuItem>
     <DropdownMenuItem>Reviews</DropdownMenuItem>
     <DropdownMenuItem>Settings</DropdownMenuItem>
-    <DropdownMenuItem onClick={()=>{localStorage.removeItem("token"); localStorage.removeItem("user"); tokenatom(0) ; navigate("/")}   }>Log out</DropdownMenuItem>
+    <DropdownMenuItem onClick={()=>{sessionStorage.removeItem("token"); sessionStorage.removeItem("user"); tokenatom(0) ; navigate("/") ; document.location.reload()}   }>Log out</DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>
   </div>

@@ -25,7 +25,6 @@ const Login = ({ setLoggedin }) => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -38,15 +37,15 @@ const Login = ({ setLoggedin }) => {
       if (res.data.message === "Login success") {
         alert("Login successful");
         setLoggedin(true);
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user", res.data.admin);
-
+        sessionStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("user", res.data.admin);
         adminName(res.data.admin);
         token(1);
         navigate("/");
       } else {
         alert("login failed");
       }
+      
     } catch (e) {
       if (e.response) {
         console.error("Login failed:", e.response.data.message);

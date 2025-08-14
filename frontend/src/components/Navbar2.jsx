@@ -35,7 +35,7 @@ const Navbar2 = () => {
   ];
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const [search, setsearch] = useRecoilState(searchAtom);
   const [searchData, setsearchData] = useState({ search: "" });
   const handleChange = (e) => {
@@ -55,7 +55,7 @@ const Navbar2 = () => {
             <NavBody>
               <NavbarLogo />
               <NavItems items={navItems} />
-              <div className="flex items-center gap-3 ">
+              <div className="flex items-center gap-4 h-15">
                 <NavbarButton>
                   <input
                     type="text"
@@ -68,7 +68,7 @@ const Navbar2 = () => {
                 </NavbarButton>
                 <NavbarButton
                   variant="primary"
-                  className="bg-blue-600 text-white rounded-4xl px-5 py-2"
+                  className="bg-blue-600 text-white  rounded-4xl px-6 py-3"
                 >
                   <button onClick={handleSearch}>Search</button>
                 </NavbarButton>
@@ -76,14 +76,14 @@ const Navbar2 = () => {
                   <>
                     <NavbarButton
                       variant="primary"
-                      className="bg-blue-600 text-white rounded-4xl px-5 py-2"
+                      className="bg-blue-600 text-white rounded-4xl px-6 py-3"
                       href="/Signup"
                     >
                       Signup
                     </NavbarButton>
                     <NavbarButton
                       variant="primary"
-                      className="bg-blue-600 text-white rounded-4xl px-5 py-2"
+                      className="bg-blue-600 text-white rounded-4xl px-6 py-3"
                       href="/Login"
                     >
                       Login
@@ -131,20 +131,42 @@ const Navbar2 = () => {
                   </a>
                 ))}
                 <div className="flex w-full flex-col gap-4">
+                  { !token?(<>
                   <NavbarButton
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    
                     variant="primary"
                     className="w-full"
+                     href="/Signup"
+                  >
+                    Signup
+                  </NavbarButton>
+                  <NavbarButton
+                  
+                    variant="primary"
+                    className="w-full"
+                    href="/Login"
                   >
                     Login
                   </NavbarButton>
+                  </>):(<>
                   <NavbarButton
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    
+                    variant="primary"
+                    className="w-full"
+                    href="/addShop"
+                  >
+                   Add Shop
+                  </NavbarButton>
+                  <NavbarButton
+                    onClick={()=>{sessionStorage.removeItem("token"); sessionStorage.removeItem("user"); navigate("/")}   }
                     variant="primary"
                     className="w-full"
                   >
-                    Book a call
+                   Logout
                   </NavbarButton>
+                  </>)
+
+                  }
                 </div>
               </MobileNavMenu>
             </MobileNav>

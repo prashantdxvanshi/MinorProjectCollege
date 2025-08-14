@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { adminAtom } from "@/atom";
+import { LoaderThree } from "./ui/loader";
 
 const AddShop = () => {
   const setAdminName = useSetRecoilState(adminAtom);
@@ -16,7 +17,9 @@ const AddShop = () => {
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
-  const[image,setimage]=useState();
+  const [loading, setloading] = useState();
+  
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,7 +33,7 @@ const AddShop = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
 
     if (!selectedFile) return alert("Please select an image.");
 
@@ -40,7 +43,7 @@ const AddShop = () => {
       data.append("description", formData.description);
       data.append("price", formData.price);
       data.append("file", selectedFile); // name must match multer field
-
+      setloading(true);
       const res = await axios.post(
         "http://localhost:4000/admin/coursecreator",
         data,
@@ -52,16 +55,19 @@ const AddShop = () => {
         }
       );
 
-      alert("Course created successfully!");
+      alert("Your Product Uploaded successfully!");
       setAdminName(res.data.adminName);
-      
       navigate("/my_created_courses");
     } catch (err) {
       console.error("Course creation error:", err);
       alert("Course creation failed!");
-    }
+    }finally {
+        setloading(false); 
+      }
   };
-
+ if(loading){
+  return(<div className="flex justify-center h-screen items-center"><div className=""><LoaderThree/><div className="text-2xl text-blue-700 ">Uploading Your Product....</div></div></div>)
+ }
   return (
     <div className="flex justify-center items-center h-full w-full py-10 px-4">
       <div className="w-full max-w-xl">

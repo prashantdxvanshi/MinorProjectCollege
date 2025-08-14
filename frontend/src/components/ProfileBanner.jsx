@@ -20,7 +20,7 @@ const ProfileBanner = () => {
                 alt=""
                 className="w-42 h-42 rounded-full mt-7"
               />
-              <div className="mt-25 ml-6 font-bold text-2xl text-white">{localStorage.getItem("user")}</div>
+              <div className="mt-25 ml-6 font-bold text-2xl text-white">{sessionStorage.getItem("user")}</div>
             </div>
 
             <div className="mr-3 my-12 flex flex-col justify-between text-white">

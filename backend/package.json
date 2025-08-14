@@ -20,6 +20,7 @@
     "multer": "^2.0.2",
     "multer-storage-cloudinary": "^4.0.0",
     "node-localstorage": "^3.0.5",
+    "ws": "^8.18.3",
     "zod": "^3.7.0"
   }
 }

@@ -17,9 +17,9 @@ const courseSchema=new Schema({
 
 
 const orderSchema = new mongoose.Schema({
-  product: { type: mongoose.Schema.Types.ObjectId, ref: "course" },
-  buyer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  seller: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  buyerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  sellerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  courseId: { type: mongoose.Schema.Types.ObjectId, ref: "course" },
   orderDate: { type: Date, default: Date.now },
   status: { type: String, default: "pending" } // pending, completed, canceled
 });

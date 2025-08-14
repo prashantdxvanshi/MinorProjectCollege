@@ -11,6 +11,7 @@ import Buy from "./components/Buy";
 import My_created_courses from "./components/My_created_courses";
 import { useRecoilValue } from "recoil";
 import { tokenAtom } from "./atom";
+import Chat from "./components/Chat";
 
 function App() {
   const [isLoggedin, setLoggedin] = useState(false);
@@ -30,6 +31,7 @@ function App() {
         <Route path="/Profile" element={<Profile/>}/>
         <Route path="/addShop" element={<AddShop/>}/>
         <Route path="/details/:id" element={<Buy/>}/>
+        <Route path="/chat/:id" element={<Chat/>}/>
         <Route path="/my_created_courses" element={<My_created_courses/>}/>
 
         

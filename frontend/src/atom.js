@@ -13,3 +13,7 @@ export const searchAtom=atom({
     key:"searchAtom",
     default:''
 })
+export const creatorAtom=atom({
+    key:"creatorAtom",
+    default:'Creator'
+})

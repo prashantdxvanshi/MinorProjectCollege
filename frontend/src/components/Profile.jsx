@@ -26,7 +26,7 @@ const Profile = () => {
   useEffect(() => {
     async function showOwnCourses(){
       try{
-        const token=localStorage.getItem("token");
+        const token=sessionStorage.getItem("token");
       const mycreatedcourses=await axios.get("http://localhost:4000/admin/my-created-courses",
         {headers:{"Content-Type": "application/json",token: token}}
       )

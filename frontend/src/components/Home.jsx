@@ -16,7 +16,7 @@ const Home = ({ isLoggedin }) => {
   const search=useRecoilValue(searchAtom);
   //  console.log(search);
   // const token=useRecoilValue(tokenAtom);
-  const token=localStorage.getItem("token")
+  const token=sessionStorage.getItem("token")
   console.log(token);
   useEffect(() => {
     const fetchcourse = async () => {
@@ -110,7 +110,8 @@ const handleDetails = async (courseId) => {
        <div className='flex flex-col justify-between space-y-7 mt-7 cursor-pointer'>
         <div href="">Orders</div>
         <div href="">Settings</div>
-        <div onClick={()=>{localStorage.removeItem("token"); localStorage.removeItem("user");  document.location.reload()}}  >Logout</div>
+       
+        <div onClick={()=>{sessionStorage.removeItem("token"); sessionStorage.removeItem("user");  document.location.reload()}}  >Logout</div>
        </div>
        </>}
       </div>
@@ -133,8 +134,8 @@ const handleDetails = async (courseId) => {
               className="w-[600px] h-[300px] object-cover rounded-lg"
             />
             <div className="p-4">
-              <h2 className="text-xl font-semibold mb-2">{course.title}</h2>
-              <p className="text-gray-600 mb-4">{course.description.slice(0, 80)}...</p>
+              <h2 className="text-xl font-semibold mb-2  h-12">{course.title}</h2>
+              <p className="text-gray-600 mb-4 ">{course.description.slice(0, 80)}...</p>
               <div className="flex justify-between items-center">
                 <span className="text-green-800 font-bold">₹{course.price}</span>
                 <button onClick={()=>handleDetails(course._id)} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 text-sm">
