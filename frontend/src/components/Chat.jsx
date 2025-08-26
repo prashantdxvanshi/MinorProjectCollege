@@ -1,16 +1,19 @@
-import { adminAtom, creatorAtom } from '@/atom';
-import React, { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { adminAtom, creatorAtom } from "@/atom";
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 
 const Chat = () => {
-    const courseId=useParams();
-    const creatorName=useRecoilValue(creatorAtom);
-    console.log("crator name is ",creatorName);
-    console.log("courseId is ",courseId);
-    const [messages, setmessages] = useState([]);
-    const token=sessionStorage.getItem("token")
-    const userName=sessionStorage.getItem("user")
+  const courseId = useParams();
+  const creatorName = useRecoilValue(creatorAtom);
+  console.log("crator name is ", creatorName);
+  console.log("courseId is ", courseId);
+  const [messages, setmessages] = useState([]);
+  const [inbox, setinbox] = useState([]);
+
+  const token = sessionStorage.getItem("token");
+  const userName = sessionStorage.getItem("user");
 
   const frontendIdref = useRef(token);
   const socket = useRef();
@@ -24,17 +27,22 @@ const Chat = () => {
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:8080");
     socket.current = ws;
-    ws.onmessage = (event) => {
+    ws.onmessage =async (event) => {
       const parsedevent = JSON.parse(event.data);
-      console.log(parsedevent.payload.message);
-      console.log(parsedevent.payload.userName);
-      
+      // console.log("on frontend msg type is  ",parsedevent.type);
+      // // console.log(parsedevent.payload.userName);
+      // if(parsedevent.type=="unseenmsgs"){
+      //   const formatted = parsedevent.payload.message.map(m => ({ text: m }));
+      //   setmessages(formatted);
+      // }
+     
+
       setmessages((p) => [
         ...p,
         {
           text: parsedevent.payload.message,
           backenduserId: parsedevent.payload.userId,
-          userName:parsedevent.payload.userName,
+          userName: parsedevent.payload.userName,
         },
       ]);
     };
@@ -47,25 +55,28 @@ const Chat = () => {
           },
         })
       );
-      
     };
     return () => {
       ws.close();
     };
   }, []);
-  const sendmessage = () => {
+        console.log("messages are ",messages);
+
+  const sendmessage = (e) => {
+    e.preventDefault();
     socket.current.send(
       JSON.stringify({
         type: "chat",
         payload: {
           message: inputdata.input,
           userId: frontendIdref.current,
-          userName:userName
+          userName: userName,
         },
       })
     );
     setinputdata({ input: "" });
   };
+
   return (
     <div>
       <div className="flex justify-center items-center min-h-screen bg-gray-800">
@@ -75,9 +86,9 @@ const Chat = () => {
           </div>
 
           <div className="flex-1 p-4 space-y-2 overflow-y-auto scrollbar-hide ">
-            {messages.map((msg) => (
+            {messages.map((msg,idx) => (
               <div
-                key={msg.backenduserId}
+                key={idx}
                 className={`flex ${
                   frontendIdref.current === msg.backenduserId
                     ? "justify-end "
@@ -91,12 +102,18 @@ const Chat = () => {
                       : "bg-gray-50 text-neutral-950"
                   }`}
                 >
-                  <p className="text-green-900 text-[8px] ">{msg.userName} <span>{creatorName==msg.userName?("(owner)"):("(client)")}</span></p><p>{msg.text}</p>
+                  <p className="text-green-900 text-[8px] ">
+                    {msg.userName}{" "}
+                    <span>
+                      {creatorName == msg.userName ? "(owner)" : "(client)"}
+                    </span>
+                  </p>
+                  <p>{msg.text}</p>
                 </div>
               </div>
             ))}
           </div>
-
+        <form onSubmit={sendmessage}>
           <div className="border-t border-gray-300 shadow-lg flex p-2 bg-white">
             <input
               className="flex-1 text-black outline-none px-4 py-2 rounded-full border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-300 transition"
@@ -108,15 +125,18 @@ const Chat = () => {
             />
             <button
               className="ml-2 text-white bg-purple-600 px-5 py-2 text-lg rounded-full hover:bg-purple-800 transition duration-200 shadow-md"
-              onClick={sendmessage}
+              // onClick={sendmessage}
+              type="submit"
+              
             >
               Send
             </button>
           </div>
+          </form>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Chat
+export default Chat;

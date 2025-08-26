@@ -44,8 +44,9 @@ const Navbar2 = () => {
   // console.log(searchData.search);
   const handleSearch = async () => {
     setsearch(searchData.search);
+    setsearchData({search:''})
   };
-
+  
   return (
     <div>
       <div>
@@ -98,7 +99,7 @@ const Navbar2 = () => {
                     >
                       Add Shop
                     </NavbarButton>
-                    <div className="mt-1 relative">
+                    <div className="mt-1 mr-3 relative">
                       <ProfileDropdown />
                     </div>
                   </>

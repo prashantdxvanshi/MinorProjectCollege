@@ -5,7 +5,7 @@ import Footer from "./Footer";
 import ReactSearchBox from "react-search-box";
 import axios from "axios";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,Link, Outlet } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { searchAtom, tokenAtom } from "@/atom";
 import Navbar2 from "./Navbar2";
@@ -96,6 +96,7 @@ const handleDetails = async (courseId) => {
 
 <div>
      <div className='fixed top-0 left-0 w-full z-2 bg-white shadow '> <Navbar2 /></div>
+    
     <div className="flex relative mt-13">
      <div className='min-h-screen bg-[#e5eeff]  fixed  left-0 w-60 '>
       <div className='m-10 text-gray-500'>
@@ -108,18 +109,25 @@ const handleDetails = async (courseId) => {
        </div>
        {token && <>
        <div className='flex flex-col justify-between space-y-7 mt-7 cursor-pointer'>
-        <div href="">Orders</div>
-        <div href="">Settings</div>
+        <Link to="/Orders">Orders</Link>     <div href="">Settings</div>
        
         <div onClick={()=>{sessionStorage.removeItem("token"); sessionStorage.removeItem("user");  document.location.reload()}}  >Logout</div>
        </div>
        </>}
       </div>
      </div>
+
      <div className='ml-60 relative bg-white w-full h-screen'>
       <div className="absolute top-10 right-150 font-bold text-2xl">Products</div>
-     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 m-25">
+     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 m-25 relative">
+     
         {courses.filter((course)=>{
+         if(course.title.toLowerCase().includes(search.toLowerCase())){
+          return true;
+         }
+        }).length==0?(<div className="flex font-bold text-2xl justify-center absolute right-115 ">
+          <span>No Record Found!!!!</span>
+        </div>):courses.filter((course)=>{
          if(course.title.toLowerCase().includes(search.toLowerCase())){
           return true;
          }
@@ -146,12 +154,6 @@ const handleDetails = async (courseId) => {
           </div>
         ))}
       </div>
-      
-      
-
-
-
-
      </div>
     </div>
     </div>

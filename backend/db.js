@@ -17,23 +17,34 @@ const courseSchema=new Schema({
 
 
 const orderSchema = new mongoose.Schema({
-  buyerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  sellerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  buyerId: { type: mongoose.Schema.Types.ObjectId, ref: "admin" },
+  sellerId: { type: mongoose.Schema.Types.ObjectId, ref: "admin" },
   courseId: { type: mongoose.Schema.Types.ObjectId, ref: "course" },
   orderDate: { type: Date, default: Date.now },
   status: { type: String, default: "pending" } // pending, completed, canceled
 });
 
 
+const messageSchema=new Schema({
+    senderId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    recieverId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    text:String,
+    seen:{type:Boolean,default:false}
+})
+
 
 const adminModel=mongoose.model("admin",adminSchema);
 const courseModel=mongoose.model("course",courseSchema);
 const orderModel=mongoose.model("order",orderSchema);
+const messageModel=mongoose.model("message",messageSchema);
+
 
 
 module.exports={
     adminModel,
     courseModel,
     orderModel,
+    messageModel,
+
     
 }

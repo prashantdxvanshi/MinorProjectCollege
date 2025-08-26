@@ -12,7 +12,7 @@ const Buy = () => {
   const navigate = useNavigate();
   const [course, setcourse] = useState({});
   const token = sessionStorage.getItem("token");
-  const [creatorName,setcreatorName]=useRecoilState(creatorAtom);
+  const [creatorName, setcreatorName] = useRecoilState(creatorAtom);
   useEffect(() => {
     const fetchCourse = async () => {
       const res = await axios.get(
@@ -25,7 +25,7 @@ const Buy = () => {
     fetchCourse();
   }, []);
 
-  const handlePurchase = async (Id) => {
+  const handlePurchase = async (Id, Price) => {
     // {token?navigate("/buy/"+courseId):navigate("/Login")};
     if (!token) {
       navigate("/Login");
@@ -33,16 +33,60 @@ const Buy = () => {
     try {
       const res = await axios.post(
         "http://localhost:4000/admin/orders",
-        { courseId: Id },
+        { courseId: Id, Price },
         { headers: { "Content-Type": "application/json", token: token } }
       );
-
-      // console.log(res.data.message);
+      if (res.data.message == "already purchased") {
+        alert("already purchased");
+      }
+      console.log(res.data.key);
+      const order = res.data.order;
+      console.log("on frontend order is ", order.id);
 
       if (res.data.message == "purchased you can see orders table") {
-        alert("course is purchased");
-      } else if (res.data.message == "already purchased") {
-        alert("already purchased");
+        const options = {
+          key: res.data.key, // Replace with your Razorpay key_id
+          amount: Price, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          currency: "INR",
+          name: "Collex ",
+          description: "",
+          order_id: order.id, // This is the order_id created in the backend
+          handler: async function (response) {
+            // console.log("Payment Success Response:", response);
+            try {
+              const callbackres = await axios.post(
+                "http://localhost:4000/admin/payment-verification",
+                {
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_signature: response.razorpay_signature,
+                  courseId: Id,
+                  Price: Price,
+                },
+                {
+                  headers: { "Content-Type": "application/json", token: token },
+                }
+              );
+              if (callbackres.data.message == "verified") {
+                alert("order is placed");
+                navigate("/Orders");
+              }
+            } catch (err) {
+              console.log(err);
+            }
+          },
+          prefill: {
+            name: sessionStorage.getItem("user"),
+            email: "gaurav.kumar@example.com",
+            contact: "9999999999",
+          },
+          theme: {
+            color: "#F37254",
+          },
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
       }
     } catch (err) {
       console.log("error in try block:", err);
@@ -76,7 +120,7 @@ const Buy = () => {
             {token && (
               <>
                 <div className="flex flex-col justify-between space-y-7 mt-7 cursor-pointer">
-                  <div href="">Orers</div>
+                  <a href="/Orders">Orers</a>
                   <div href="">Settings</div>
                   <div
                     onClick={() => {
@@ -116,7 +160,7 @@ const Buy = () => {
                     </span>
 
                     <button
-                      onClick={() => handlePurchase(course._id)}
+                      onClick={() => handlePurchase(course._id, course.price)}
                       className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 text-sm"
                     >
                       Buy Now

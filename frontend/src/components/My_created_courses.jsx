@@ -50,11 +50,7 @@ const My_created_courses = () => {
     <div>
       <header className="shadow bg-gradient-to-r from-blue-500 via-indigo-50">
         <nav className=" flex items-center mx-50  ">
-          <img
-            src="https://t3.ftcdn.net/jpg/02/45/84/16/360_F_245841615_d7QzRv937jfiC176rmKK60ckNXU9V76z.jpg"
-            alt=""
-            className="w-30 h-15 rounded-4xl "
-          />
+          <span className="font-bold text-2xl text-black dark:text-white mr-8">COLLEX</span>
           <div className="flex justify-between  mt-2 w-full ">
             <div className="flex w-full mr-25 border-2 rounded shadow-2xl p-4">
               <div className="ml-3 w-90 ">LocationBar</div>

@@ -3,3 +3,13 @@ note--
 if module.exports={anything}; then we are exporting it as an object and we have to import like this  import {anything}=require("pathofit");
 but if module.exports=anything; then we are exporting it as a function and we have to import it like this import anything=require(pathofit);    
 means it is all about our use case if we are using the exporting stuff as function then we have to export them like function 
+ try {
+        const token=sessionStorage.getItem("token");
+
+        const res =await  axios.post(
+          "http://localhost:4000/message/send",  { text: parsedevent.payload.message },
+          { headers: { "Content-Type": "application/json", token: token } },);
+        console.log("on frontend response is ",res.data.newmsg);
+      } catch (err) {
+        console.log("error in try bloc ", err);
+      }
