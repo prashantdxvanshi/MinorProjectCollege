@@ -16,7 +16,7 @@ const Orders = () => {
     async function fetchorder() {
       try {
         const res = await axios.get(
-          "http://localhost:4000/admin/my_purchased_courses",
+          "https://minorprojectcollege.onrender.com//admin/my_purchased_courses",
           { headers: { "Content-Type": "application/json", token: token } }
         );
         console.log("orders detail", res.data.ordersDetails);

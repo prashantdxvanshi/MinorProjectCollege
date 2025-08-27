@@ -16,7 +16,7 @@ const Buy = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       const res = await axios.get(
-        "http://localhost:4000/course/detail/" + courseId.id,
+        "https://minorprojectcollege.onrender.com//course/detail/" + courseId.id,
         {}
       );
       setcourse(res.data.details);
@@ -32,7 +32,7 @@ const Buy = () => {
     }
     try {
       const res = await axios.post(
-        "http://localhost:4000/admin/orders",
+        "https://minorprojectcollege.onrender.com//admin/orders",
         { courseId: Id, Price },
         { headers: { "Content-Type": "application/json", token: token } }
       );
@@ -55,7 +55,7 @@ const Buy = () => {
             // console.log("Payment Success Response:", response);
             try {
               const callbackres = await axios.post(
-                "http://localhost:4000/admin/payment-verification",
+                "https://minorprojectcollege.onrender.com//admin/payment-verification",
                 {
                   razorpay_payment_id: response.razorpay_payment_id,
                   razorpay_order_id: response.razorpay_order_id,
@@ -81,7 +81,7 @@ const Buy = () => {
             contact: "9999999999",
           },
           theme: {
-            color: "#F37254",
+            color: "#0000FF",
           },
         };
 

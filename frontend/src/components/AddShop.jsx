@@ -45,7 +45,7 @@ const AddShop = () => {
       data.append("file", selectedFile); // name must match multer field
       setloading(true);
       const res = await axios.post(
-        "http://localhost:4000/admin/coursecreator",
+        "https://minorprojectcollege.onrender.com//admin/coursecreator",
         data,
         {
           headers: {

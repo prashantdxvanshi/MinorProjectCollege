@@ -27,7 +27,7 @@ const My_created_courses = () => {
       try {
         if (token) {
           const res = await axios.get(
-            "http://localhost:4000/admin/my-created-courses",
+            "https://minorprojectcollege.onrender.com//admin/my-created-courses",
             { headers: { "Content-Type": "application/json", token: token } }
           );
           setcourses(res.data.courses);
