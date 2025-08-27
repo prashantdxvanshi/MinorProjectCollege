@@ -27,7 +27,7 @@ const Profile = () => {
     async function showOwnCourses(){
       try{
         const token=sessionStorage.getItem("token");
-      const mycreatedcourses=await axios.get("https://minorprojectcollege.onrender.com//admin/my-created-courses",
+      const mycreatedcourses=await axios.get("http://localhost:4000/admin/my-created-courses",
         {headers:{"Content-Type": "application/json",token: token}}
       )
       setcourses(mycreatedcourses.data.courses);

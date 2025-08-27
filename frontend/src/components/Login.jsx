@@ -30,7 +30,7 @@ const Login = ({ setLoggedin }) => {
     try {
   
       const res = await axios.post(
-        "https://minorprojectcollege.onrender.com//admin/signin",
+        "http://localhost:4000/admin/signin",
         formData
       );
 

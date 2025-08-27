@@ -15,9 +15,9 @@ const AllProducts = () => {
     const fetchcourse = async () => {
       try {
          
-        if(!token){const res = await axios.get("https://minorprojectcollege.onrender.com//course/review", {});
+        if(!token){const res = await axios.get("http://localhost:4000/course/review", {});
       setcourses(res.data);}
-        else{const res = await axios.get("https://minorprojectcollege.onrender.com//admin/others", {headers:{"Content-Type": "application/json",token: token}});
+        else{const res = await axios.get("http://localhost:4000/admin/others", {headers:{"Content-Type": "application/json",token: token}});
       setcourses(res.data);}
         
       } catch (err) {

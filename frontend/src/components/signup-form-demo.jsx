@@ -30,7 +30,7 @@ export default function SignupFormDemo({setLoggedin}) {
    const handleSubmit = async (e) => {
      e.preventDefault();
      try {
-        const res=await axios.post("https://minorprojectcollege.onrender.com//admin/signup", formData);
+        const res=await axios.post("http://localhost:4000/admin/signup", formData);
         console.log(res.data.message)
         if(res.data.message==="signed up"){
           alert("Signup successful!");
