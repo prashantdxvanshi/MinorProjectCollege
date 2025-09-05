@@ -16,7 +16,7 @@ const Home = ({ isLoggedin }) => {
   useEffect(() => {
     const fetchcourse = async () => {
       try {
-         const API_BASE = process.env.REACT_APP_API_BASE_URL;
+         const API_BASE = process.env.VITE_API_BASE_URL;
           console.log("api base is ",API_BASE)
         if(!token){const res = await axios.get(`${API_BASE}/course/review`, {});
       setcourses(res.data);}
