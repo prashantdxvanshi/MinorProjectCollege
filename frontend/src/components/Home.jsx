@@ -18,7 +18,7 @@ const Home = ({ isLoggedin }) => {
       try {
          const API_BASE = process.env.VITE_API_BASE_URL;
           console.log("api base is ",API_BASE)
-        if(!token){const res = await axios.get(`${API_BASE}/course/review`, {});
+        if(!token){const res = await axios.get(`https://reactproject-teal.vercel.app/course/review`, {});
       setcourses(res.data);}
         else{const res = await axios.get(`${API_BASE}/admin/others`, {headers:{"Content-Type": "application/json",token: token}});
       setcourses(res.data);}
