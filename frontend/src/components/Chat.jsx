@@ -25,18 +25,11 @@ const Chat = () => {
   };
   //  console.log(inputdata)
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8080");
+    const ws = new WebSocket("ws://localhost:4000");
     socket.current = ws;
     ws.onmessage =async (event) => {
       const parsedevent = JSON.parse(event.data);
-      // console.log("on frontend msg type is  ",parsedevent.type);
-      // // console.log(parsedevent.payload.userName);
-      // if(parsedevent.type=="unseenmsgs"){
-      //   const formatted = parsedevent.payload.message.map(m => ({ text: m }));
-      //   setmessages(formatted);
-      // }
-     
-
+ 
       setmessages((p) => [
         ...p,
         {

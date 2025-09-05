@@ -1,5 +1,7 @@
 const express = require('express')
+const http = require('http');
 const mongoose=require('mongoose');
+const { WebSocketServer, WebSocket }=require ("ws");
 
 
 const { courseRoutes } = require('./routes/course');
@@ -13,6 +15,7 @@ const port = 4000
 const cors = require("cors");
 const multer = require('multer');
 app.use(cors());
+const server=http.createServer(app);
 
 
 
@@ -35,7 +38,7 @@ app.use("/message",dbmessageRoutes);
 
 async function main(){
 await mongoose.connect(process.env.MONGODB_URL);
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 }
@@ -44,10 +47,8 @@ main();
 
 
 
-const { WebSocketServer, WebSocket }=require ("ws");
-const { messageRoutes } = require('./routes/messages');
 const { messageModel } = require('./db');
-const wss = new WebSocketServer({ port: 8080 });
+const wss = new WebSocketServer({ server });
 
 let allsockets = [
   {
@@ -67,19 +68,6 @@ let allsockets = [
 //  unseenmsgs();
 
 wss.on("connection",async function (socket) {
-  
-  // wss.clients.forEach((client)=>{
-  //   client.send(JSON.stringify({
-  //     type: "unseenmsgs", 
-  //     payload:{
-  //       message:unseenmsgarray
-  //     }
-  //   }))
-  // })
-    
-    
-  
-  
   console.log("connected user ");
   socket.on("message",async (msg) => {
     const parsedmsg = JSON.parse(msg);
