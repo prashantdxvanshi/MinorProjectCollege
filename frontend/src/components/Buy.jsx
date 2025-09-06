@@ -5,6 +5,7 @@ import Navbar2 from "./Navbar2";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { creatorAtom } from "@/atom";
+ const API_BASE = process.env.VITE_API_BASE_URL;
 
 const Buy = () => {
   const courseId = useParams();
@@ -16,7 +17,7 @@ const Buy = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       const res = await axios.get(
-        "http://localhost:4000/course/detail/" + courseId.id,
+        `${API_BASE}/course/review/course/detail/`+ courseId.id,
         {}
       );
       setcourse(res.data.details);
@@ -32,7 +33,7 @@ const Buy = () => {
     }
     try {
       const res = await axios.post(
-        "http://localhost:4000/admin/orders",
+        `${API_BASE}/course/review/admin/orders`,
         { courseId: Id, Price },
         { headers: { "Content-Type": "application/json", token: token } }
       );
@@ -55,7 +56,7 @@ const Buy = () => {
             // console.log("Payment Success Response:", response);
             try {
               const callbackres = await axios.post(
-                "http://localhost:4000/admin/payment-verification",
+                `${API_BASE}/course/review/admin/payment-verification`,
                 {
                   razorpay_payment_id: response.razorpay_payment_id,
                   razorpay_order_id: response.razorpay_order_id,

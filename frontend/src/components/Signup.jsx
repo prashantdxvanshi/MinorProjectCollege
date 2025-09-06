@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+const API_BASE = process.env.VITE_API_BASE_URL;
+
 const Signup = ({setLoggedin}) => {
   const [formData, setFormData] = useState({
     email: "",
@@ -15,7 +17,7 @@ const Signup = ({setLoggedin}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-       const res=await axios.post("http://localhost:5000/admin/signup", formData);
+       const res=await axios.post(`${API_BASE}/admin/signup`, formData);
       alert("Signup successful!");
       setLoggedin(true);
       // const userId = res.data.user._id;

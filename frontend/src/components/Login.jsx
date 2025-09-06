@@ -12,6 +12,8 @@ import {
 } from "@tabler/icons-react";
 import { adminAtom, tokenAtom } from "@/atom";
 import { useSetRecoilState } from "recoil";
+ const API_BASE = process.env.VITE_API_BASE_URL;
+
 // import toast from "toaster";
 const Login = ({ setLoggedin }) => {
   const adminName=useSetRecoilState(adminAtom);
@@ -30,7 +32,7 @@ const Login = ({ setLoggedin }) => {
     try {
   
       const res = await axios.post(
-        "http://localhost:4000/admin/signin",
+        `${API_BASE}/admin/signin`,
         formData
       );
 

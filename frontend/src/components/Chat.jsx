@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-
+const API_BASE = process.env.VITE_API_BASE_URL;
 const Chat = () => {
   const courseId = useParams();
   const creatorName = useRecoilValue(creatorAtom);
@@ -25,7 +25,7 @@ const Chat = () => {
   };
   //  console.log(inputdata)
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:4000");
+    const ws = new WebSocket(`wss://reactproject-teal.vercel.app`);
     socket.current = ws;
     ws.onmessage =async (event) => {
       const parsedevent = JSON.parse(event.data);

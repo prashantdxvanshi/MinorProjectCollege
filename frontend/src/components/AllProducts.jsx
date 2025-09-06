@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+const API_BASE = process.env.VITE_API_BASE_URL;
 
 const AllProducts = () => {
       const [courses, setcourses] = useState([]);
@@ -15,9 +16,9 @@ const AllProducts = () => {
     const fetchcourse = async () => {
       try {
          
-        if(!token){const res = await axios.get("http://localhost:4000/course/review", {});
+        if(!token){const res = await axios.get(`${API_BASE}/course/review`, {});
       setcourses(res.data);}
-        else{const res = await axios.get("http://localhost:4000/admin/others", {headers:{"Content-Type": "application/json",token: token}});
+        else{const res = await axios.get(`${API_BASE}/admin/others`, {headers:{"Content-Type": "application/json",token: token}});
       setcourses(res.data);}
         
       } catch (err) {

@@ -12,6 +12,7 @@ import {
 } from "@tabler/icons-react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { adminAtom, tokenAtom } from "@/atom";
+const API_BASE = process.env.VITE_API_BASE_URL;
 
 export default function SignupFormDemo({setLoggedin}) {
   const adminName=useSetRecoilState(adminAtom);
@@ -30,7 +31,7 @@ export default function SignupFormDemo({setLoggedin}) {
    const handleSubmit = async (e) => {
      e.preventDefault();
      try {
-        const res=await axios.post("http://localhost:4000/admin/signup", formData);
+        const res=await axios.post( `${API_BASE}/admin/signup`, formData);
         console.log(res.data.message)
         if(res.data.message==="signed up"){
           alert("Signup successful!");

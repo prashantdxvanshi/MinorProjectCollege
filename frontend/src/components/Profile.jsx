@@ -10,6 +10,8 @@ import Slider from "react-slick";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { adminAtom, searchAtom, tokenAtom } from "@/atom";
+const API_BASE = process.env.VITE_API_BASE_URL;
+
 const Profile = () => {
   const [courses,setcourses]=useState([]);
   const [search,setsearch]=useState("");
@@ -27,7 +29,7 @@ const Profile = () => {
     async function showOwnCourses(){
       try{
         const token=sessionStorage.getItem("token");
-      const mycreatedcourses=await axios.get("http://localhost:4000/admin/my-created-courses",
+      const mycreatedcourses=await axios.get(`${API_BASE}/admin/my-created-courses`,
         {headers:{"Content-Type": "application/json",token: token}}
       )
       setcourses(mycreatedcourses.data.courses);

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { adminAtom } from "@/atom";
 import { LoaderThree } from "./ui/loader";
+const API_BASE = process.env.VITE_API_BASE_URL;
 
 const AddShop = () => {
   const setAdminName = useSetRecoilState(adminAtom);
@@ -45,7 +46,7 @@ const AddShop = () => {
       data.append("file", selectedFile); // name must match multer field
       setloading(true);
       const res = await axios.post(
-        "http://localhost:4000/admin/coursecreator",
+        `${API_BASE}/course/review/admin/coursecreator`,
         data,
         {
           headers: {

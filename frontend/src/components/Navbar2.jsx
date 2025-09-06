@@ -19,20 +19,7 @@ import Profileholder from "./Profileholder";
 import { useRecoilState } from "recoil";
 import { searchAtom } from "@/atom";
 const Navbar2 = () => {
-  const navItems = [
-    // {
-    //   name: "Features",
-    //   link: "#features",
-    // },
-    // {
-    //   name: "Pricing",
-    //   link: "#pricing",
-    // },
-    // {
-    //   name: "Contact",
-    //   link: "#contact",
-    // },
-  ];
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const token = sessionStorage.getItem("token");

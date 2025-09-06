@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Navbar2 from "./Navbar2";
 import { useRecoilValue } from "recoil";
 import { searchAtom } from "@/atom";
+const API_BASE = process.env.VITE_API_BASE_URL;
 
 const Orders = () => {
   const token = sessionStorage.getItem("token");
@@ -16,7 +17,7 @@ const Orders = () => {
     async function fetchorder() {
       try {
         const res = await axios.get(
-          "http://localhost:4000/admin/my_purchased_courses",
+           `${API_BASE}/admin/my_purchased_courses`,
           { headers: { "Content-Type": "application/json", token: token } }
         );
         console.log("orders detail", res.data.ordersDetails);

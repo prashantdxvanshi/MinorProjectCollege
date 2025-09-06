@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { adminAtom, creatorAtom, tokenAtom } from "@/atom";
+const API_BASE = process.env.VITE_API_BASE_URL;
 
 const My_created_courses = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const My_created_courses = () => {
       try {
         if (token) {
           const res = await axios.get(
-            "http://localhost:4000/admin/my-created-courses",
+            `${API_BASE}/admin/my-created-courses`,
             { headers: { "Content-Type": "application/json", token: token } }
           );
           setcourses(res.data.courses);
